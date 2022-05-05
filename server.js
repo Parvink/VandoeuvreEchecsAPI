@@ -1,7 +1,7 @@
-import mongoose from 'mongoose'
 import express from 'express'
 import * as dotenv from 'dotenv';
 
+import routes from './routes/index.js'
 import connect from './db/config.js'
 import loggerMiddleware from './middleware/logger.middleware.js'
 
@@ -10,11 +10,12 @@ const port = process.env.PORT || 3000
 const app = express()
 app.use(express.json())
 
-connect();
-app.use('user/:id', (req, res, next) => {
-    res.send(req.params.id);
-})
 
+connect();
+
+
+app.use(loggerMiddleware)
+app.use('/api/', routes)
 app.listen(port)
 
 /*getUsers() //get all users de la db

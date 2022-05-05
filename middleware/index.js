@@ -1,1 +1,3 @@
-import Logger from './middleware'
+import loggerMiddleware from './logger.middleware'
+
+export default { loggerMiddleware }
