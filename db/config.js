@@ -6,7 +6,7 @@ const connect = async => {
     return mongoose
       .connect(dbUri)
       .then(() => {
-        Logger.info("On est dans la db")
+        console.log("On est dans la db")
       })
       .catch((error) => {
         Logger.error(error)

@@ -1,12 +1,12 @@
 import crypto from 'crypto'
 import mongoose from 'mongoose'
 import * as jwt from 'jsonwebtoken'
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
   firstname: { type: String, default: 'nofirstname' },
   name: { type: String, default: 'noname' },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   elo: { type: Number, default: 0},
   type: { type: String, enum: ["PLAYER", "ADMIN"], default: "PLAYER"},

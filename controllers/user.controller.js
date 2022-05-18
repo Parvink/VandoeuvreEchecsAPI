@@ -40,6 +40,7 @@ export async function addNewUser(req, res) {
   return res.status(201).json(user)
 }
 
+
 //TODO needs more testing, success all the time even with unexisting keys
 export async function updateUser(req, res) {
   if (!req.params.id) {

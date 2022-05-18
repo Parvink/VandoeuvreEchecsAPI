@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import { userController } from '../controllers/index.js'
+import middlewares from '../middleware/index.js'
 
+const { isValidID } = middlewares
 const userRouter = Router()
 
 userRouter.route('/:id')
-.get(userController.getUser)
-.put(userController.updateUser)
-.delete(userController.deleteUser)
+.get(isValidID, userController.getUser)
+.put(isValidID, userController.updateUser)
+.delete(isValidID, userController.deleteUser)
 userRouter.route('/')
 .get(userController.getUsers)
 .post(userController.addNewUser)
