@@ -45,10 +45,12 @@ async function populateEvents(quantity, users) {
 
 if (process.argv.length < 3) {
   console.error("Missing quantity argument");
+  console.error("usage: npm run populate <number of users (between 1 & 50)> <optional: number of events(between 1 & 50)>")
   process.exit(1);
 }
-if (process.argv[2] > 50 || process.argv[2] <= 0) {
+if (process.argv[2] > 50 || process.argv[2] < 0) {
   console.error("Pick a number between 1 and 50");
+  console.error("usage: npm run populate <number of users (between 1 & 50)> <optional: number of events(between 1 & 50)>")
   process.exit(1);
 }
 const index = await populatePlayers(process.argv[2]);

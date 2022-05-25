@@ -1,8 +1,8 @@
 import Logger from '../utils/logger.js'
-import mongoose from 'mongoose'
+import isObjectId from '../utils/idvalidator.js'
 
 async function isValidID(req, res, next) {
-    if (mongoose.isValidObjectId(req.params.id)) {
+    if (isObjectId(req.params.id)) {
         next();
     }
     else {

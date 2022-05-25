@@ -6,7 +6,9 @@ const { isValidID } = middlewares
 const eventRouter = Router()
 
 eventRouter.route('/user/:id')
-.get(eventController.getEventsByUser)
+.get(isValidID, eventController.getEventsByUser)
+eventRouter.route('/invite/:id')
+.put(isValidID, eventController.invitePlayers)
 eventRouter.route('/:eventId/:userId')
 .put(eventController.confirmParticipation)
 eventRouter.route('/:id')
