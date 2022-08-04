@@ -117,11 +117,9 @@ export async function loginUser(req, res) {
         const user = await userService.getUsersByEmail(email)
         if (user.length == 0) {
             Logger.error('No user found in the database with this email')
-            return res
-                .status(400)
-                .json({
-                    message: 'No user found in the database with this email',
-                })
+            return res.status(400).json({
+                message: 'No user found in the database with this email',
+            })
         }
         if (user[0].validPassword(password))
             return res.status(200).json(user[0].toAuthJSON(rememberMe))
