@@ -1,39 +1,46 @@
 {
-  "name": "vandoeuvreechecsapi",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "An API for the chess club of Vandoeuvre",
-  "main": "server.js",
-  "scripts": {
-    "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "populate": "node scripts/populateDB.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Parvink/VandoeuvreEchecsAPI.git"
-  },
-  "author": "Matthieu Pourquet and Thomas Kauffmann",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Parvink/VandoeuvreEchecsAPI/issues"
-  },
-  "homepage": "https://github.com/Parvink/VandoeuvreEchecsAPI#readme",
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "crypto": "^1.0.1",
-    "dotenv": "^16.0.0",
-    "express": "^4.18.1",
-    "helmet": "^5.0.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.3.1",
-    "morgan": "^1.10.0",
-    "nodemailer": "^6.7.5",
-    "nodemon": "^2.0.16",
-    "winston": "^3.7.2"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^6.3.1",
-    "axios": "^0.27.2"
-  }
+    "name": "vandoeuvreechecsapi",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "An API for the chess club of Vandoeuvre",
+    "main": "server.js",
+    "scripts": {
+        "start": "nodemon server.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "populate": "node scripts/populateDB.js",
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
+        "lint:check": "eslint .",
+        "lint:fix": "eslint --fix ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Parvink/VandoeuvreEchecsAPI.git"
+    },
+    "author": "Matthieu Pourquet and Thomas Kauffmann",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Parvink/VandoeuvreEchecsAPI/issues"
+    },
+    "homepage": "https://github.com/Parvink/VandoeuvreEchecsAPI#readme",
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "crypto": "^1.0.1",
+        "dotenv": "^16.0.0",
+        "express": "^4.18.1",
+        "helmet": "^5.0.2",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.3.1",
+        "morgan": "^1.10.0",
+        "nodemailer": "^6.7.5",
+        "nodemon": "^2.0.16",
+        "winston": "^3.7.2"
+    },
+    "devDependencies": {
+        "@faker-js/faker": "^6.3.1",
+        "axios": "^0.27.2",
+        "eslint": "^8.17.0",
+        "eslint-config-prettier": "^8.5.0",
+        "prettier": "^2.6.2"
+    }
 }
