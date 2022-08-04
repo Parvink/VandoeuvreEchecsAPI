@@ -1,59 +1,69 @@
-import crypto from 'crypto'
+import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
-import * as jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-  firstname: { type: String, default: 'nofirstname' },
-  name: { type: String, default: 'noname' },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  elo: { type: Number, default: 0},
-  type: { type: String, enum: ["PLAYER", "ADMIN"], default: "PLAYER"},
-  ageCategory: { type: Number, enum: [12, 20, 30], default: 20}
-  //hash: String,
-  //salt: String,
-});
+    firstname: {
+        type: String,
+        required: [true, 'First name is a required field'],
+    },
+    name: { type: String, required: [true, 'Name is a required field'] },
+    email: {
+        type: String,
+        trim: true,
+        unique: true,
+        validate: {
+            validator: function (v) {
+                return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)
+            },
+            message: 'Please enter a valid email',
+        },
+        required: [true, 'Email is a required field'],
+    },
+    elo: { type: Number, default: 0, min: 0, max: 3500 },
+    type: { type: String, enum: ['PLAYER', 'ADMIN'], default: 'PLAYER' },
+    ageCategory: { type: Number, enum: [12, 20, 30], default: 20 },
+    hash: { type: String },
+})
 
 userSchema.methods.setPassword = function (password) {
-    this.salt = crypto.randomBytes(16).toString('hex');
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
-  };
-  
-  /**
+    this.hash = bcrypt.hashSync(password, 10)
+    this.save()
+}   
+
+/*
     This method encrypts the given password to check if it is equal the hash meaning
     the password is valid.
   */
-  userSchema.methods.validPassword = function (password) {
-    const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
-    return this.hash === hash;
-  };
-  
-  userSchema.methods.generateJWT = function (rememberMe) {
-    const today = new Date();
-    const expirationDate = new Date(today);
-    expirationDate.setHours(today.getHours() + 5000);
-    if (rememberMe === false) {
-      return jwt.sign({
+userSchema.methods.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.hash)
+}
+
+/*
+    This method returns a JWT string given the email,id and rememberMe parameters.
+*/
+userSchema.methods.generateJWT = function (rememberMe) {
+    const expiration = rememberMe ? '10h' : '2h'
+    return jwt.sign(
+        {
+            email: this.email,
+            id: this._id,
+        },
+        process.env.JWT_KEY,
+        { expiresIn: expiration }
+    )
+}
+
+/*
+    This method returns an object formatted with the generated JWT, id and email.
+*/
+userSchema.methods.toAuthJSON = function (rememberMe) {
+    return {
+        _id: this._id,
         email: this.email,
-        id: this._id,
-        type: this.type,
-        exp: parseInt(expirationDate.getTime(), 10)
-      }, process.env.JWT_KEY);
+        token: this.generateJWT(rememberMe),
     }
-    return jwt.sign({
-      email: this.email,
-      id: this._id,
-      type: this.type
-    }, process.env.JWT_KEY);
-  };
-  
-  userSchema.methods.toAuthJSON = function (rememberMe) {
-    return ({
-      _id: this._id,
-      email: this.email,
-      token: this.generateJWT(rememberMe),
-    });
-  };
-  
-  export default userSchema;
+}
+
+export default userSchema
