@@ -111,20 +111,22 @@ export async function deleteUser(req, res) {
 */
 
 export async function loginUser(req, res) {
-    const { email, password } = req.body;
-    const rememberMe = req.body.rememberMe || false  
+    const { email, password } = req.body
+    const rememberMe = req.body.rememberMe || false
     try {
-        const user = await userService.getUsersByEmail(email);
+        const user = await userService.getUsersByEmail(email)
         if (user.length == 0) {
             Logger.error('No user found in the database with this email')
             return res
                 .status(400)
-                .json({ message: 'No user found in the database with this email' })
+                .json({
+                    message: 'No user found in the database with this email',
+                })
         }
         if (user[0].validPassword(password))
             return res.status(200).json(user[0].toAuthJSON(rememberMe))
         Logger.error('The password is not valid')
-        return res.status(400).json({ message: 'The password is not valid'})
+        return res.status(400).json({ message: 'The password is not valid' })
     } catch (e) {
         Logger.error(e.message)
         return res.status(400).json({ message: e.message })

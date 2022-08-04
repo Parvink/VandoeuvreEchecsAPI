@@ -5,8 +5,7 @@ import middlewares from '../middleware/index.js'
 const { isValidID } = middlewares
 const userRouter = Router()
 
-userRouter.route('/auth')
-.post(userController.loginUser)
+userRouter.route('/auth').post(userController.loginUser)
 
 userRouter
     .route('/:id')

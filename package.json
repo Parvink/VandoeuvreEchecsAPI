@@ -8,6 +8,7 @@
         "start": "nodemon server.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "populate": "node scripts/populateDB.js",
+        "install:devdependencies": "npm install --save-dev prettier eslint",
         "format:check": "prettier --check .",
         "format:write": "prettier --write .",
         "lint:check": "eslint .",

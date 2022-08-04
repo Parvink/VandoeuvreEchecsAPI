@@ -30,7 +30,7 @@ const userSchema = new Schema({
 userSchema.methods.setPassword = function (password) {
     this.hash = bcrypt.hashSync(password, 10)
     this.save()
-}   
+}
 
 /*
     This method encrypts the given password to check if it is equal the hash meaning
